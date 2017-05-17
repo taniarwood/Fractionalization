@@ -1342,7 +1342,8 @@ class dataLoader(object):
                  use_kde_bg       = False,
                  use_kde_sys      = False,
                  quantile_mc      = (0., 1.),
-                 default_settings = {} ):
+                 default_settings = {},
+                 sysfile          = 'DRAGON_detector_systematics.pckl'):
 
 
         # Store the arguments used
@@ -1460,24 +1461,13 @@ class dataLoader(object):
         
         
         # Before loading all MC, check if there are systematic histograms for the settings requested
-        #sysfile = os.path.join(self.local_settings.detsys_database, user + '_detSysHist.pckl')
         baseline_only = False
-        #if os.path.exists(sysfile) and not detsys_redo:
-	if False:
-            print 'dataLoader: Trying to load systematic histograms from file'
-            detsysHistos = mf.getMatchingSet(sysfile, self.iniDict, self.default_data_settings,
-                                             ['observables','bin_edges','weight_keys', 'extra_cuts', 
-                                              'table_nbins', 'detsys_nuspecs','detsys_myspecs',
-                                              'use_kde_sys','quantile_mc', 'pid_bias', 'oscMode', 
-                                              'dm31', 'theta23', 'theta13', 'nobar_ratio', 'uphor_ratio', 
-                                              'nu_nubar', 'nubar_ratio', 'gamma', 'axm_qe', 'axm_res',
-                                              'dis_xa','dis_xb','correct_honda_flux','dm41','theta24','theta34'],
-                                             False) # Verbose
-            if detsysHistos:
-                baseline_only = True
-                self.detsys   = detsysHistos
-                # If there is a file with pre-calculated histograms the kde's will not be used anymore for nu MC
-                use_kde_sys   = False
+        if os.path.exists(sysfile) and not detsys_redo:
+            print 'dataLoader: Trying to load systematic histograms from file', sysfile
+            infile = open(sysfile, 'r')
+            self.detsys = pickle.load(infile)
+            infile.close()
+            baseline_only = True
         
         self.loadNeutrinoMC(baseline_only, use_kde_sys, quantile_mc)
         self.loadAtmMuMC(baseline_only, use_kde_bg, quantile_mc)
@@ -1506,13 +1496,9 @@ class dataLoader(object):
             self.loadSystematicVariations(params = self.default_data_settings, 
                                           use_kde=use_kde_sys)
 
-            print 'dataLoader: Done loading systematic variations'
-
-            # For this I need my own storing function
-            #mf.storeSet(dbFile = sysfile, loaderDict = deepcopy(self.iniDict), 
-            #            mcSettings = self.default_data_settings, storeData = self.detsys)
-            
-            #pickle.dump(self.detsys, open(sysfile, 'w'))
+            print 'dataLoader: Done loading systematic variations - will dump to file now!'
+            print 'File: ', sysfile
+            pickle.dump(self.detsys, open(sysfile, 'w'))
             self.oscCalc = None
             reload(oscfit_default_values)
 

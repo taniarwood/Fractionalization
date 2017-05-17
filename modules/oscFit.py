@@ -83,9 +83,9 @@ class fitOscParams(object):
                          nu_frac3 = None,
                          nu_frac4 = None,
 			 nu_frac5 = None,
-                         #nu_frac6 = None,			 
-			 #nu_frac7 = None,
-                         #nu_frac8 = None,
+                         nu_frac6 = None,			 
+			 nu_frac7 = None,
+                         nu_frac8 = None,
 
                          gamma = None,  
                          norm_e = None,  
@@ -156,22 +156,22 @@ class fitOscParams(object):
         norm_3 = nu_events*nu_frac3/(np.sum(neutrinos[2])*norm_nu)
         norm_4 = nu_events*nu_frac4/(np.sum(neutrinos[3])*norm_nu)
         norm_5 = nu_events*nu_frac5/(np.sum(neutrinos[4])*norm_nu)
-     #   norm_6 = nu_events*nu_frac6/(np.sum(neutrinos[5])*norm_nu)
-     #   norm_7 = nu_events*nu_frac7/(np.sum(neutrinos[6])*norm_nu)
-#        norm_8 = nu_events*nu_frac8/(np.sum(neutrinos[7])*norm_nu)
+        norm_6 = nu_events*nu_frac6/(np.sum(neutrinos[5])*norm_nu)
+        norm_7 = nu_events*nu_frac7/(np.sum(neutrinos[6])*norm_nu)
+        norm_8 = nu_events*nu_frac8/(np.sum(neutrinos[7])*norm_nu)
 
-#	norm_9 = nu_events*(1-nu_frac1-nu_frac2-nu_frac3-nu_frac4-nu_frac5-nu_frac6-nu_frac7-nu_frac8)/(np.sum(neutrinos[8])*norm_nu)
-#        norm_9 = np.abs(norm_9)
-        norm_6 = nu_events*(1-nu_frac1-nu_frac2-nu_frac3-nu_frac4-nu_frac5)/(np.sum(neutrinos[5])*norm_nu)
-        norm_6 = np.abs(norm_6)
+	norm_9 = nu_events*(1-nu_frac1-nu_frac2-nu_frac3-nu_frac4-nu_frac5-nu_frac6-nu_frac7-nu_frac8)/(np.sum(neutrinos[8])*norm_nu)
+        norm_9 = np.abs(norm_9)
+#        norm_8 = nu_events*(1-nu_frac1-nu_frac2-nu_frac3-nu_frac4-nu_frac5-nu_frac6-nu_frac7)/(np.sum(neutrinos[7])*norm_nu)
+#        norm_8 = np.abs(norm_8)
 
 
         # The minimizer does not know that norm_1,2,3 should sum to less than 1
         # Enforcing this by always using the absolute value of norm_4
         # The user should set more reasonable limits for the norms used by looking at MC prediction
 
-        #nu_norms = [norm_1, norm_2, norm_3, norm_4,norm_5, norm_6, norm_7, norm_8, norm_9, 0.]
-        nu_norms = [norm_1, norm_2, norm_3, norm_4, norm_5, norm_6, 0.]
+        nu_norms = [norm_1, norm_2, norm_3, norm_4,norm_5, norm_6, norm_7, norm_8, norm_9, 0.]
+        #nu_norms = [norm_1, norm_2, norm_3, norm_4, norm_5, norm_6, norm_7, norm_8, 0.]
         #print 'Expected events', expected_events, norm_nu
         norm_atmmu = 0.
         norm_noise = 0.
@@ -194,7 +194,7 @@ class fitOscParams(object):
         for index, loader in enumerate(self.data_loaders):
             ref_histo += neutrinos[index]*norm_nu*nu_norms[index] +\
                          muons[index]*norm_atmmu + noise[index]*norm_noise
-            print 'Nu norms index', nu_norms[index],np.sum( neutrinos[index]*norm_nu*nu_norms[index])
+            #print 'Nu norms index', nu_norms[index],np.sum( neutrinos[index]*norm_nu*nu_norms[index])
 
             if self.fit_function == 'chi_squared':
                 ref_histo_w2 += neutrinos_w2[index]*norm_nu**2*nu_norms[index]**2 +\
@@ -203,8 +203,8 @@ class fitOscParams(object):
                                  (loader.atmmu_histo['data'] - loader.atmmu_histo['data_aux'])**2)*norm_atmmu**2
 
         # Reference histogram
-        #print ref_histo
-        #print np.sum(ref_histo)
+       # print ref_histo
+       # print np.sum(ref_histo)
 
         nonzero           = ref_histo > 0
 
@@ -734,11 +734,15 @@ class fitOscParams(object):
                      nu_events*results['nu_frac3']/(np.sum(neutrinos[2])*norm_nu_secs),
 		     nu_events*results['nu_frac4']/(np.sum(neutrinos[3])*norm_nu_secs),
                      nu_events*results['nu_frac5']/(np.sum(neutrinos[4])*norm_nu_secs),
-               #      nu_events*results['nu_frac6']/(np.sum(neutrinos[5])*norm_nu_secs),
-        #             nu_events*results['nu_frac7']/(np.sum(neutrinos[6])*norm_nu_secs),
-        #             nu_events*results['nu_frac8']/(np.sum(neutrinos[7])*norm_nu_secs),
-                     nu_events*(1-results['nu_frac1']-results['nu_frac2']-results['nu_frac3']-results['nu_frac4']-results['nu_frac5'])/\
-                     (np.sum(neutrinos[5])*norm_nu_secs)]
+                     nu_events*results['nu_frac6']/(np.sum(neutrinos[5])*norm_nu_secs),
+                     nu_events*results['nu_frac7']/(np.sum(neutrinos[6])*norm_nu_secs),
+                     nu_events*results['nu_frac8']/(np.sum(neutrinos[7])*norm_nu_secs),
+                    # nu_events*(1-results['nu_frac1']-results['nu_frac2']-results['nu_frac3']-results['nu_frac4']-results['nu_frac5']-results['nu_frac6']-results['nu_frac7'])/\
+                    # (np.sum(neutrinos[7])*norm_nu_secs)]
+		     nu_events*(1-results['nu_frac1']-results['nu_frac2']-results['nu_frac3']-results['nu_frac4']-results['nu_frac5']-results['nu_frac6']-results['nu_frac7'] - results['nu_frac8'] )/\
+                     (np.sum(neutrinos[8])*norm_nu_secs)]
+
+
 
         results['nu_norms']   = nu_norms
         results['norm_atmmu'] = 0.

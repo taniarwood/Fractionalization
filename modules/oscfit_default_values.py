@@ -34,9 +34,9 @@ fit_keys = [
 #suddenly i am thinking very.  I will need to look thorugh the code. 
     'nu_frac4',
     'nu_frac5',
-  #  'nu_frac6',
-  #  'nu_frac7',
-#    'nu_frac8', 
+    'nu_frac6',
+    'nu_frac7',
+    'nu_frac8', 
 
     'norm_tau',
     'atmmu_f',
@@ -118,13 +118,13 @@ default_fit_settings  = {
     # Normalizations and flux
     'norm':           [1., True], # Set to False only for your final result. Saves time.
     'nu_frac1':         [0.1, False],
-    'nu_frac2':         [0.2, False],
+    'nu_frac2':         [0.1, False],
     'nu_frac3':         [0.1, False],
     'nu_frac4':         [0.1, False],
     'nu_frac5':         [0.1, False],
- #   'nu_frac6':         [0.1, False],
- #   'nu_frac7':         [0.1, False],
- #   'nu_frac8':         [0.1, False],
+    'nu_frac6':         [0.1, False],
+    'nu_frac7':         [0.1, False],
+    'nu_frac8':         [0.1, False],
 
     'norm_e':         [1., False],
     'norm_nc':        [1., True],
@@ -194,9 +194,9 @@ default_fit_errors = {
     'nu_frac3':0.1,
     'nu_frac4':0.1,
     'nu_frac5':0.1,
-   # 'nu_frac6':0.1,
-   # 'nu_frac7':0.1,
-   # 'nu_frac8':0.1,
+    'nu_frac6':0.1,
+    'nu_frac7':0.1,
+    'nu_frac8':0.1,
 
     'norm_e': 0.05,
     'norm_tau':0.1,
@@ -225,15 +225,15 @@ default_fit_limits = {
     'theta13'        : (0., pi/2.),
     'mix_angle'      : (0., 2.),
     'dm31'           : (0, 1.),
-    'norm'           : (0.5, 2.),
+    'norm'           : (0.8, 1.2),
     'nu_frac1'         : (0., 1.),
     'nu_frac2'         : (0., 1.),
     'nu_frac3'         : (0., 1.),
     'nu_frac4'         : (0., 1.),
     'nu_frac5'         : (0., 1.),
-  #  'nu_frac6'         : (0., 1.),
-  #  'nu_frac7'         : (0., 1.),
-   # 'nu_frac8'         : (0., 1.),
+    'nu_frac6'         : (0., 1.),
+    'nu_frac7'         : (0., 1.),
+    'nu_frac8'         : (0., 1.),
 
 
     'atmmu_f'        : (0.0, 1.0),
